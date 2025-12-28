@@ -1,0 +1,36 @@
+# Source
+src/
+
+# Tests
+tests/
+coverage/
+vitest.config.ts
+
+# Documentation source
+website/
+SPECIFICATION.md
+IMPLEMENTATION.md
+TASKS.md
+PROJECT.md
+
+# Config files
+.eslintrc.json
+.prettierrc
+tsconfig.json
+tsup.config.ts
+
+# IDE
+.idea/
+.vscode/
+
+# Git
+.git/
+.gitignore
+
+# CI/CD
+.github/
+
+# Misc
+*.log
+.DS_Store
+Thumbs.db
