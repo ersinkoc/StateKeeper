@@ -19,7 +19,7 @@ export function Playground() {
   const [isDrawing, setIsDrawing] = useState(false)
 
   useEffect(() => {
-    return kernel.on('state-change', (event) => {
+    return kernel.on('state-change', (event: any) => {
       if (event.type === 'state-change') {
         setState(event.state)
       }
@@ -117,7 +117,7 @@ export function Playground() {
                   onMouseUp={() => setIsDrawing(false)}
                   onMouseLeave={() => setIsDrawing(false)}
                 >
-                  {state.points.map((point, i) => (
+                  {state.points.map((point: any, i: number) => (
                     <circle
                       key={i}
                       cx={point.x}
@@ -174,7 +174,7 @@ export function Playground() {
                     )}
                   </div>
                   {/* History entries */}
-                  {historyEntries.map((entry, i) => (
+                  {historyEntries.map((entry: any, i: number) => (
                     <div
                       key={entry.id}
                       className={`p-2 rounded border ${
