@@ -31,6 +31,11 @@ The StateKeeper website is automatically deployed to GitHub Pages using GitHub A
 ### Build Locally
 
 ```bash
+# First build the main package (website depends on it)
+npm install
+npm run build
+
+# Then build the website
 cd website
 npm install
 npm run build
@@ -40,15 +45,27 @@ npm run preview
 ### Deployment Flow
 
 1. Push changes to `main` branch
-2. GitHub Actions builds the website
-3. Deploys to GitHub Pages
-4. Available at: https://statekeeper.oxog.dev
+2. GitHub Actions:
+   - Builds the main @oxog/statekeeper package
+   - Installs website dependencies (includes local package)
+   - Builds the website
+   - Verifies CNAME file exists
+   - Deploys to GitHub Pages
+3. Available at: https://statekeeper.oxog.dev
 
 ### Files
 
 - `.github/workflows/deploy.yml` - GitHub Actions workflow
-- `website/public/CNAME` - Custom domain configuration
+- `website/public/CNAME` - Custom domain configuration (copied to dist during build)
+- `website/vite.config.ts` - Vite configuration with base path
 - `website/dist/` - Built files (generated)
+
+### Important Notes
+
+- The website depends on the main package via `"file:.."` in package.json
+- The main package MUST be built before building the website
+- CNAME file is automatically copied from `public/` to `dist/` during build
+- Vite base path is set to `/` for custom domain
 
 ### Troubleshooting
 
@@ -56,12 +73,20 @@ npm run preview
 - Check DNS propagation (can take up to 24 hours)
 - Verify CNAME file is in the dist folder after build
 - Check GitHub Pages settings
+- Ensure "Enforce HTTPS" is enabled in Pages settings
 
 **Build failing?**
 - Check Actions tab for error logs
 - Verify Node.js version (20.x)
-- Ensure all dependencies are in package.json
+- Ensure main package builds successfully first
+- Check that website/package.json has `"@oxog/statekeeper": "file:.."`
+
+**Module not found errors?**
+- Run `npm install` in both root and website directories
+- Ensure main package is built (`npm run build` in root)
+- Check that dist/ folder exists in root with built files
 
 **404 on routes?**
 - SPA routing is handled by React Router
 - GitHub Pages serves all routes through index.html
+- Verify base path in vite.config.ts is set to `/`

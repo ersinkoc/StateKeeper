@@ -19,8 +19,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,34 +32,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'website/package-lock.json'
 
-      - name: Install dependencies
-        run: |
-          cd website
-          npm ci
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Build main package
+        run: npm run build
+
+      - name: Install website dependencies
+        working-directory: ./website
+        run: npm install
 
       - name: Build website
+        working-directory: ./website
+        run: npm run build
+
+      - name: Verify CNAME exists
         run: |
-          cd website
-          npm run build
+          if [ ! -f website/dist/CNAME ]; then
+            echo "CNAME file missing, creating it"
+            echo "statekeeper.oxog.dev" > website/dist/CNAME
+          fi
+          cat website/dist/CNAME
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './website/dist'
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
