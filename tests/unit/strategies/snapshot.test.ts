@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest'
 import { SnapshotStrategy, createSnapshotStrategy } from '../../../src/strategies/snapshot'
 
 describe('SnapshotStrategy', () => {

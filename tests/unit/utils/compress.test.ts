@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest'
 import { compress, decompress } from '../../../src/utils/compress'
 
 describe('compress and decompress', () => {

@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest'
 import { applyPatch, createInversePatch } from '../../../src/utils/patch'
 import type { Patch } from '../../../src/types'
 

@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest'
 import { diff, escapeKey, unescapeKey, parsePath } from '../../../src/utils/diff'
 
 describe('diff', () => {

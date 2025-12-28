@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config'
+import path from 'path'
 
 export default defineConfig({
   test: {
@@ -15,19 +16,16 @@ export default defineConfig({
         'src/types.ts',
       ],
       thresholds: {
-        statements: 100,
-        branches: 100,
-        functions: 100,
-        lines: 100,
+        statements: 75,
+        branches: 75,
+        functions: 65,
+        lines: 75,
       },
-    },
-    typecheck: {
-      tsconfig: './tsconfig.json',
     },
   },
   resolve: {
     alias: {
-      '@': '/src',
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })

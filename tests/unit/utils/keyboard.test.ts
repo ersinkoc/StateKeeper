@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest'
 import { parseShortcut, matchShortcut, matchAnyShortcut, formatShortcut } from '../../../src/utils/keyboard'
 
 describe('parseShortcut', () => {

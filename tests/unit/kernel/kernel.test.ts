@@ -1,4 +1,3 @@
-import { describe, it, expect, vi } from 'vitest'
 import { createHistory } from '../../../src/index'
 
 describe('Kernel', () => {
