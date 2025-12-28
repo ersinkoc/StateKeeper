@@ -1,42 +1,431 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* 🖥️ Terminal & IDE Theme - Developer-First Design */
+
+/* Font family - strict monospace */
+* {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  letter-spacing: -0.02em;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Background with grid pattern overlay */
+body {
+  position: relative;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
 }
 
-@keyframes logo-spin {
+.dark body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.light body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanline effect for terminal aesthetic */
+.dark body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(16, 185, 129, 0.01) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Terminal window style for code blocks */
+pre {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  border-radius: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.dark pre {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.light pre {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+/* Terminal header with dots */
+pre::before {
+  content: '';
+  display: block;
+  height: 32px;
+  background: hsl(var(--card));
+  border-bottom: 1px solid hsl(var(--border));
+  background-image:
+    radial-gradient(circle, #ef4444 6px, transparent 6px),
+    radial-gradient(circle, #eab308 6px, transparent 6px),
+    radial-gradient(circle, #22c55e 6px, transparent 6px);
+  background-size: 12px 12px;
+  background-position: 12px center, 32px center, 52px center;
+  background-repeat: no-repeat;
+}
+
+pre code {
+  display: block;
+  padding: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+/* Syntax highlighting colors */
+.dark pre code {
+  color: hsl(var(--foreground));
+}
+
+.light pre code {
+  color: hsl(var(--foreground));
+}
+
+/* Inline code with bracket style */
+:not(pre) > code {
+  font-family: 'JetBrains Mono', monospace;
+  background: hsl(var(--muted));
+  padding: 0.2em 0.4em;
+  border-radius: 0;
+  font-size: 0.9em;
+  font-weight: 500;
+  border: 1px solid hsl(var(--border));
+  position: relative;
+}
+
+.dark :not(pre) > code {
+  color: hsl(var(--primary));
+}
+
+.light :not(pre) > code {
+  color: hsl(var(--primary));
+}
+
+:not(pre) > code::before {
+  content: '[';
+  color: hsl(var(--primary));
+  margin-right: 0.1em;
+}
+
+:not(pre) > code::after {
+  content: ']';
+  color: hsl(var(--primary));
+  margin-left: 0.1em;
+}
+
+/* Headings - terminal style */
+h1, h2, h3, h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  position: relative;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+h2 {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+/* Glow effect for headings */
+.dark h1, .dark h2 {
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Navigation bar - terminal style */
+nav {
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  position: relative;
+}
+
+.dark nav {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.light nav {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons - sharp edges */
+button, .button {
+  border-radius: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  border: 1px solid hsl(var(--border));
+}
+
+button:hover:not(:disabled), .button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+button:active:not(:disabled), .button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Cards - terminal windows */
+[class*="card"] {
+  border-radius: 0;
+  border: 1px solid hsl(var(--border));
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dark [class*="card"] {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.light [class*="card"] {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+[class*="card"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+}
+
+/* Tabs - command line style */
+[role="tablist"] button {
+  position: relative;
+  border-radius: 0;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+
+[role="tablist"] button::before {
+  content: '>';
+  margin-right: 0.5rem;
+  color: hsl(var(--primary));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+[role="tablist"] button[data-state="active"]::before,
+[role="tablist"] button[aria-selected="true"]::before {
+  opacity: 1;
+}
+
+[role="tablist"] button[data-state="active"],
+[role="tablist"] button[aria-selected="true"] {
+  border-bottom: 2px solid hsl(var(--primary));
+}
+
+/* Scrollbars - minimal terminal style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Selection - syntax highlight color */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+}
+
+/* Links - command style */
+a {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: hsl(var(--secondary));
+}
+
+a::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: hsl(var(--primary));
+  transition: width 0.2s ease;
+}
+
+a:hover::before {
+  width: 100%;
+}
+
+/* Blinking cursor animation */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: '▋';
+  color: hsl(var(--primary));
+  animation: blink 1s infinite;
+  margin-left: 0.2em;
+}
+
+/* Focus states - neon glow */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 0;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Page transitions */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.page-enter {
+  animation: fadeIn 0.4s ease-out;
 }
 
-.card {
-  padding: 2em;
+/* Glitch effect for special elements */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
 }
 
-.read-the-docs {
-  color: #888;
+.glitch:hover {
+  animation: glitch 0.3s ease-in-out;
+}
+
+/* ASCII art style decorations */
+.ascii-border {
+  position: relative;
+  padding: 1rem;
+}
+
+.ascii-border::before {
+  content: '┌─────────────────────────────────────────┐';
+  display: block;
+  color: hsl(var(--border));
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.ascii-border::after {
+  content: '└─────────────────────────────────────────┘';
+  display: block;
+  color: hsl(var(--border));
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Status indicators */
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  margin-right: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-success {
+  background: hsl(var(--primary));
+  box-shadow: 0 0 10px hsl(var(--primary));
+}
+
+.status-warning {
+  background: hsl(var(--secondary));
+  box-shadow: 0 0 10px hsl(var(--secondary));
+}
+
+.status-error {
+  background: hsl(var(--destructive));
+  box-shadow: 0 0 10px hsl(var(--destructive));
+}
+
+/* Code comment style for text */
+.comment-style {
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.comment-style::before {
+  content: '// ';
+  color: hsl(var(--muted-foreground));
+  font-style: normal;
+}
+
+/* Terminal prompt style */
+.terminal-prompt::before {
+  content: '$ ';
+  color: hsl(var(--primary));
+  font-weight: bold;
 }
